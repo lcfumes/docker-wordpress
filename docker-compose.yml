@@ -1,0 +1,31 @@
+version: '2'
+services:
+  web_melhortvporassinatura:
+    image: nginx:latest
+    container_name: 'web_docker_wordpress'
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "80:80"
+    links:
+      - app_docker_wordpress
+
+  db_docker_wordpress:
+    image: 'mariadb:10.3'
+    container_name: 'db_docker_wordpress'
+    environment:
+      MYSQL_ROOT_PASSWORD: 32C4l3
+      MYSQL_DATABASE: melhortvporassinatura
+      MYSQL_USER: melhortvporassinatura
+      MYSQL_PASSWORD: U23RM3LH0Rtv
+    volumes:
+     - ./data/db:/var/lib/mysql
+
+  app_docker_wordpress:
+    build: .
+    ports:
+      - "9000:9000"
+    container_name: 'app_melhortvporassinatura'
+    tty: true
+    volumes:
+      - ./:/app
